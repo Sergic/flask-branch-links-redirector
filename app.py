@@ -2,7 +2,6 @@ __author__ = 'Gaiar'
 
 from branch import BranchClient
 from ivi import IVI
-import simplejson
 from gazelle import Gazelle
 from flask import Flask, redirect, url_for
 
@@ -25,9 +24,28 @@ def get_branch_movie_link(content_id):
             response = ivi.get_compilation_info(str(content_id))
 
         branch_link = branch.create_branch_link(True, None, 0,
-                                                gz.prepare_branch_params(response['result'], data, False),
+                                                gz.prepare_branch_movie_params(response['result'], data, False),
                                                 ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
+        print (branch.branch_redirect(True, None, 0,
+                                                gz.prepare_branch_movie_params(response['result'], data, False),
+                                                ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch'))
+        print (branch_link)
         return redirect(branch_link['url'], 302)
+
+
+@app.route('/collections/<collection_id>')
+def get_branch_collection_link(collection_id):
+    data = {'g_source': 'ivi',
+            'g_campaign': 'gaiar'
+            }
+    if collection_id:
+        response = ivi.get_collection_info(collection_id)
+
+        branch_link = branch.create_branch_link(True, None, 0, gz.prepare_branch_collection_params(response['result'], data, True),
+                                            ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
+        print (branch_link)
+        return redirect(branch_link['url'],302)
+
 
 @app.route('/')
 def get_branch_link():
@@ -35,7 +53,7 @@ def get_branch_link():
             'g_campaign': 'gaiar'
             }
     response = ivi.get_movie_info(97812)
-    branch_link = branch.create_branch_link(True, None, 0, gz.prepare_branch_params(response['result'], data, False),
+    branch_link = branch.create_branch_link(True, None, 0, gz.prepare_branch_movie_params(response['result'], data, True),
                                             ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
     return redirect(branch_link['url'], 302)
 

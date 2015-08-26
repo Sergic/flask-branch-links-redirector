@@ -29,3 +29,16 @@ class IVI(object):
                   'app_version': self.app_version}
         r = requests.get(url_endpoint, params)
         return r.json()
+
+    def get_collection_info(self, collection_id):
+        params = {}
+
+        if not collection_id.isdigit():
+            params = {'hru': collection_id}
+        else:
+            params = {'id': collection_id}
+        params.update({'app_version': self.app_version})
+        url_endpoint = '{0}/collectioninfo/v5/'.format(self.api_url)
+
+        r = requests.get(url_endpoint, params)
+        return r.json()
