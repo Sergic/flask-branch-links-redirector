@@ -23,13 +23,13 @@ def get_branch_movie_link(content_id):
         else:
             response = ivi.get_compilation_info(str(content_id))
 
-        branch_link = branch.create_branch_link(True, None, 0,
-                                                gz.prepare_branch_movie_params(response['result'], data, False),
-                                                ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
-        print (branch.branch_redirect(True, None, 0,
-                                                gz.prepare_branch_movie_params(response['result'], data, False),
-                                                ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch'))
-        print (branch_link)
+        branch_params = gz.prepare_branch_params(response['result'], data, False, 'movie')
+
+        branch_link = branch.create_branch_short_link(True, None, 0, branch_params,
+                                                      ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
+        print('Branch long link: ' + branch.create_branch_redirect_link(True, None, 0, branch_params,
+                                                 ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch'))
+        print('Branch short link: ' + branch_link['url'])
         return redirect(branch_link['url'], 302)
 
 
@@ -41,10 +41,12 @@ def get_branch_collection_link(collection_id):
     if collection_id:
         response = ivi.get_collection_info(collection_id)
 
-        branch_link = branch.create_branch_link(True, None, 0, gz.prepare_branch_collection_params(response['result'], data, True),
-                                            ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
-        print (branch_link)
-        return redirect(branch_link['url'],302)
+        branch_link = branch.create_branch_short_link(True, None, 0,
+                                                      gz.prepare_branch_params(response['result'], data, True,
+                                                                               'collection'),
+                                                      ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
+        print('Branch link: ' + branch_link['url'])
+        return redirect(branch_link['url'], 302)
 
 
 @app.route('/')
@@ -52,11 +54,11 @@ def get_branch_link():
     data = {'g_source': 'ivi',
             'g_campaign': 'gaiar'
             }
-    response = ivi.get_movie_info(97812)
-    branch_link = branch.create_branch_link(True, None, 0, gz.prepare_branch_movie_params(response['result'], data, True),
-                                            ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
+    branch_link = branch.create_branch_short_link(True, None, 0, gz.prepare_branch_params({}, data, True, 'index'),
+                                                  ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
+    print('Branch link: ' + branch_link['url'])
     return redirect(branch_link['url'], 302)
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

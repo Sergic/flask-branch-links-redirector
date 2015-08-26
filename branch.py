@@ -14,7 +14,7 @@ class BranchClient(object):
         else:
             self.branch_domain = 'https://bnc.lt'
 
-    def create_branch_link(self, has_app=False, duration=None, type=0, data={}, tags=[], campaign=None, feature=None,
+    def create_branch_short_link(self, has_app=False, duration=None, type=0, data={}, tags=[], campaign=None, feature=None,
                            channel=None, stage=None):
         url_endpoint = '{0}/v1/url'.format(self.api_url)
         params = {'branch_key': self.branch_key}
@@ -42,7 +42,7 @@ class BranchClient(object):
 
         return r.json()
 
-    def branch_redirect(self, has_app=False, duration=None, type=0, data={}, tags=[], campaign=None, feature=None,
+    def create_branch_redirect_link(self, has_app=False, duration=None, type=0, data={}, tags=[], campaign=None, feature=None,
                         channel=None, stage=None):
         redirect_link = '{0}/a/{1}/?'.format(self.branch_domain, self.branch_key)
 
