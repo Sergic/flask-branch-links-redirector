@@ -14,8 +14,7 @@ app = Flask(__name__)
 
 @app.route('/watch/<content_id>')
 @app.route('/watch/<content_id>/<serie_id')
-
-def get_branch_movie_link(content_id, serie_id, collection_hru):
+def get_branch_movie_link(content_id, serie_id):
     data = {'g_source': 'ivi',
             'g_campaign': 'gaiar'
             }
@@ -34,6 +33,7 @@ def get_branch_movie_link(content_id, serie_id, collection_hru):
         print('Branch short link: ' + branch_link['url'])
         return redirect(branch_link['url'], 302)
 
+
 @app.route('/collections/<collection_id>')
 def get_branch_collection_link(collection_id):
     data = {'g_source': 'ivi',
@@ -48,6 +48,7 @@ def get_branch_collection_link(collection_id):
                                                       ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
         print('Branch link: ' + branch_link['url'])
         return redirect(branch_link['url'], 302)
+
 
 @app.route('/')
 def get_branch_link():

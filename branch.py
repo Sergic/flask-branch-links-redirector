@@ -6,16 +6,18 @@ import urllib.parse
 
 
 class BranchClient(object):
-    def __init__(self, branch_key, branch_domain=None):
+    def __init__(self, branch_key, branch_secret='', branch_domain=None):
         self.branch_key = branch_key
+        self.branch_secret = branch_secret
         self.api_url = 'https://api.branch.io'
         if branch_domain:
             self.branch_domain = branch_domain
         else:
             self.branch_domain = 'https://bnc.lt'
 
-    def create_branch_short_link(self, has_app=False, duration=None, type=0, data={}, tags=[], campaign=None, feature=None,
-                           channel=None, stage=None):
+    def create_branch_short_link(self, has_app=False, duration=None, type=0, data={}, tags=[], campaign=None,
+                                 feature=None,
+                                 channel=None, stage=None):
         url_endpoint = '{0}/v1/url'.format(self.api_url)
         params = {'branch_key': self.branch_key}
 
@@ -42,8 +44,9 @@ class BranchClient(object):
 
         return r.json()
 
-    def create_branch_redirect_link(self, has_app=False, duration=None, type=0, data={}, tags=[], campaign=None, feature=None,
-                        channel=None, stage=None):
+    def create_branch_redirect_link(self, has_app=False, duration=None, type=0, data={}, tags=[], campaign=None,
+                                    feature=None,
+                                    channel=None, stage=None):
         redirect_link = '{0}/a/{1}/?'.format(self.branch_domain, self.branch_key)
 
         # redirect_link = self.branch_domain + '/a/' + self.branch_key + '/?'
@@ -74,6 +77,26 @@ class BranchClient(object):
         redirect_link += urllib.parse.urlencode(params)
         return redirect_link
 
-    def _create_request_params(self, params):
-        link_params = ''
-        return link_params
+    def get_credits_count(self, identity):
+
+        url_endpoint = '{0}/v1/credits'.format(self.api_url)
+        params = {'branch_key': self.branch_key,
+                  'identity': str(identity)}
+        r = requests.get(url_endpoint, params)
+        return r.json
+
+    def add_credits(self, identity, credits_amount, bucket=''):
+
+        url_endpoint = '{0}/v1/credits'.format(self.api_url)
+        params = {'branch_key': self.branch_key,
+                  'branch_secret': self.branch_secret,
+                  'identity': identity,
+                  'amount': credits_amount
+                  }
+        if bucket:
+            params.update({
+                'bucket': bucket
+            })
+        r = requests.post(url_endpoint, json=params)
+
+        return r.json()

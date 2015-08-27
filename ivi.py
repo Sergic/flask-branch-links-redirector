@@ -30,7 +30,6 @@ class IVI(object):
         r = requests.get(url_endpoint, params)
         return r.json()
 
-
     def get_collection_info(self, collection_id):
         params = {}
 
@@ -43,4 +42,3 @@ class IVI(object):
 
         r = requests.get(url_endpoint, params)
         return r.json()
-
