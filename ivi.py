@@ -29,3 +29,7 @@ class IVI(object):
                   'app_version': self.app_version}
         r = requests.get(url_endpoint, params)
         return r.json()
+
+    def get_collection_info(self,collection_hru):
+
+        return ''
