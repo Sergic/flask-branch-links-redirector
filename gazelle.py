@@ -24,10 +24,11 @@ class Gazelle(object):
 
     def prepare_branch_params(self, content, gutm={}, deepview=True, link_type='index'):
         gutm_params = {}
+        """:type: dict """
         params = {
             '$always_deeplink': True
         }
-
+        """:type: dict """
         for key, value in gutm.items():
             gutm_params.update({key: value})
             params.update({key: value})
