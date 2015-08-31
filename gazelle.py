@@ -1,5 +1,6 @@
 __author__ = 'Gaiar'
-from urllib import parse
+import urllib
+
 
 
 class Gazelle(object):
@@ -37,8 +38,8 @@ class Gazelle(object):
                 '$ios_deepview': 'default_template',
                 '$android_deepview': 'default_template'
             })
-        referrer = parse.urlencode(gutm_params)
-        deeplink_referrer = '?referrer=' + parse.quote_plus(referrer)
+        referrer = urllib.urlencode(gutm_params)
+        deeplink_referrer = '?referrer=' + urllib.quote_plus(referrer)
 
         if link_type == 'index':
             params.update(
@@ -94,16 +95,16 @@ class Gazelle(object):
         # print (content['poster_originals'][0]['path'])
 
 
-        deeplink_referrer = '?referrer=' + parse.quote_plus(parse.urlencode(gutm_params))
+        deeplink_referrer = '?referrer=' + urllib.quote_plus(urllib.urlencode(gutm_params))
 
         if content['kind'] > 1:
             params.update({'$deeplink_path': 'compilation/open/' + str(content['id']) + deeplink_referrer,
-                           '$desktop_url': 'http://www.ivi.ru/watch/' + str(content['hru']) + '?' + parse.urlencode(
+                           '$desktop_url': 'http://www.ivi.ru/watch/' + str(content['hru']) + '?' + urllib.urlencode(
                                gutm_params)})
         else:
             params.update({'$deeplink_path': 'movie/open/' + str(content['id']) + deeplink_referrer,
                            '$desktop_url': 'http://www.ivi.ru/watch/' + str(
-                               content['id']) + '/description' + '?' + parse.urlencode(gutm_params)})
+                               content['id']) + '/description' + '?' + urllib.urlencode(gutm_params)})
 
         return params
 
@@ -127,10 +128,10 @@ class Gazelle(object):
                 '$android_deepview': 'default_template'
             })
 
-        deeplink_referrer = '?referrer=' + parse.quote_plus(parse.urlencode(gutm_params))
+        deeplink_referrer = '?referrer=' + urllib.quote_plus(urllib.urlencode(gutm_params))
 
         params.update({
             '$deeplink_path': 'collection/open/' + str(content['id']) + deeplink_referrer,
-            '$desktop_url': 'http://www.ivi.ru/collections/' + str(content['hru']) + '?' + parse.urlencode(
+            '$desktop_url': 'http://www.ivi.ru/collections/' + str(content['hru']) + '?' + urllib.urlencode(
                 gutm_params)})
         return params

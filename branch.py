@@ -2,7 +2,7 @@ __author__ = 'Gaiar'
 
 import requests
 
-import urllib.parse
+import urllib
 
 
 class BranchClient(object):
@@ -74,7 +74,7 @@ class BranchClient(object):
         if stage:
             params.update({'stage': stage})
 
-        redirect_link += urllib.parse.urlencode(params)
+        redirect_link += urllib.urlencode(params)
         return redirect_link
 
     def get_credits_count(self, identity):
@@ -100,3 +100,15 @@ class BranchClient(object):
         r = requests.post(url_endpoint, json=params)
 
         return r.json()
+
+    def get_credits_history(self,identity):
+
+        url_endpoint='{0}/v1/credithistory'.format(self.api_url)
+        params={
+            'branch_key':self.branch_key,
+            'identity':identity
+        }
+
+        r = requests.get(url_endpoint,params)
+        return r.json()
+    
