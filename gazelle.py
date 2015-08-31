@@ -24,10 +24,11 @@ class Gazelle(object):
 
     def prepare_branch_params(self, content, gutm={}, deepview=True, link_type='index'):
         gutm_params = {}
+        """:type: dict """
         params = {
             '$always_deeplink': True
         }
-
+        """:type: dict """
         for key, value in gutm.items():
             gutm_params.update({key: value})
             params.update({key: value})
@@ -80,57 +81,4 @@ class Gazelle(object):
                     '$deeplink_path': self.LINK_TYPES['collection']['deeplink'] + str(content['id']) + deeplink_referrer
                 }
             )
-        return params
-
-    def prepare_branch_movie_params(self, content, gutm={}, deepview=True, link_type=0):
-        gutm_params = {}
-        params = {
-            '$og_title': content['title'],
-            '$og_description': content['synopsis'] if len(content['synopsis']) > 1 else content['description'],
-            '$og_image_url': content['poster_originals'][0]['path'],
-            '$always_deeplink': True,
-        }
-
-        # print (content['poster_originals'][0]['path'])
-
-
-        deeplink_referrer = '?referrer=' + parse.quote_plus(parse.urlencode(gutm_params))
-
-        if content['kind'] > 1:
-            params.update({'$deeplink_path': 'compilation/open/' + str(content['id']) + deeplink_referrer,
-                           '$desktop_url': 'http://www.ivi.ru/watch/' + str(content['hru']) + '?' + parse.urlencode(
-                               gutm_params)})
-        else:
-            params.update({'$deeplink_path': 'movie/open/' + str(content['id']) + deeplink_referrer,
-                           '$desktop_url': 'http://www.ivi.ru/watch/' + str(
-                               content['id']) + '/description' + '?' + parse.urlencode(gutm_params)})
-
-        return params
-
-    def prepare_branch_collection_params(self, content, gutm={}, deepview=True):
-        gutm_params = {}
-        params = {
-            '$og_title': content['title'],
-            '$og_description': content['synopsis'] if len(content['synopsis']) > 1 else content['description'],
-            '$og_image_url': '',
-            '$always_deeplink': True
-        }
-        for key, value in gutm.items():
-            gutm_params.update({key: value})
-            params.update({key: value})
-
-        # print (content['poster_originals'][0]['path'])
-
-        if deepview:
-            params.update({
-                '$ios_deepview': 'default_template',
-                '$android_deepview': 'default_template'
-            })
-
-        deeplink_referrer = '?referrer=' + parse.quote_plus(parse.urlencode(gutm_params))
-
-        params.update({
-            '$deeplink_path': 'collection/open/' + str(content['id']) + deeplink_referrer,
-            '$desktop_url': 'http://www.ivi.ru/collections/' + str(content['hru']) + '?' + parse.urlencode(
-                gutm_params)})
         return params
