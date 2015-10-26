@@ -54,7 +54,7 @@ class Gazelle(object):
             params.update(
                 {
                     '$og_title': content['title'],
-                    '$og_description': content['synopsis'] if len(content['synopsis']) > 1 else content['description'],
+                    '$og_description': shorten_description(content,255),
                     '$og_image_url': content['poster_originals'][0]['path']
                 }
             )
@@ -75,10 +75,16 @@ class Gazelle(object):
             params.update(
                 {
                     '$og_title': content['title'],
-                    '$og_description': content['synopsis'] if len(content['synopsis']) > 1 else content['description'],
-                    '$og_image_url': '',
+                    '$og_description': shorten_description(content,255),
+                    '$og_image_url': 'http://f26.vcp.digitalaccess.ru/contents/4/f/8afc38a69f4013d51219334e1017d5.png',
                     '$desktop_url': self.LINK_TYPES['collection']['desktop_url'] + str(content['hru']) + '?' + referrer,
                     '$deeplink_path': self.LINK_TYPES['collection']['deeplink'] + str(content['id']) + deeplink_referrer
                 }
             )
         return params
+
+
+def shorten_description (content, word_length):
+    s_ = content['synopsis'] if ('synopsis' in content) else content['description']
+    return (s_[:word_length] + '..') if len(s_) > word_length else s_
+    return s

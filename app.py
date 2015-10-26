@@ -13,8 +13,8 @@ app = Flask(__name__)
 
 
 @app.route('/watch/<content_id>')
-@app.route('/watch/<content_id>/<serie_id')
-def get_branch_movie_link(content_id, serie_id):
+@app.route('/watch/<content_id>/<serie_id>')
+def get_branch_movie_link(content_id, serie_id = 0):
     data = {'g_source': 'ivi',
             'g_campaign': 'gaiar'
             }
