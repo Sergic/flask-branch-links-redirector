@@ -3,7 +3,7 @@ __author__ = 'Gaiar'
 from branch import BranchClient
 from ivi import IVI
 from gazelle import Gazelle
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect
 
 gz = Gazelle()
 branch = BranchClient('key_test_iceRbypBYEOFfsnpGBLVKhnczFpaZo1j')
@@ -13,8 +13,8 @@ app = Flask(__name__)
 
 
 @app.route('/watch/<content_id>')
-@app.route('/watch/<content_id>/<serie_id>')
-def get_branch_movie_link(content_id, serie_id = 0):
+def get_branch_movie_link(content_id):
+
     data = {'g_source': 'ivi',
             'g_campaign': 'gaiar'
             }
@@ -28,8 +28,7 @@ def get_branch_movie_link(content_id, serie_id = 0):
 
         branch_link = branch.create_branch_short_link(True, None, 0, branch_params,
                                                       ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch')
-        print('Branch long link: ' + branch.create_branch_redirect_link(True, None, 0, branch_params,
-                                                 ['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch'))
+        #print('Branch long link: ' + branch.create_branch_redirect_link(True, None, 0, branch_params,['ivi', 'movie'], 'facebook', 'hell', 'mail', 'launch'))
         print('Branch short link: ' + branch_link['url'])
         return redirect(branch_link['url'], 302)
 

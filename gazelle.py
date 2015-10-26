@@ -1,5 +1,6 @@
 __author__ = 'Gaiar'
-from urllib import parse
+import urllib
+
 
 
 class Gazelle(object):
@@ -38,8 +39,8 @@ class Gazelle(object):
                 '$ios_deepview': 'default_template',
                 '$android_deepview': 'default_template'
             })
-        referrer = parse.urlencode(gutm_params)
-        deeplink_referrer = '?referrer=' + parse.quote_plus(referrer)
+        referrer = urllib.urlencode(gutm_params)
+        deeplink_referrer = '?referrer=' + urllib.quote_plus(referrer)
 
         if link_type == 'index':
             params.update(
@@ -81,6 +82,7 @@ class Gazelle(object):
                     '$deeplink_path': self.LINK_TYPES['collection']['deeplink'] + str(content['id']) + deeplink_referrer
                 }
             )
+
         return params
 
 
